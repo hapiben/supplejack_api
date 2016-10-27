@@ -49,7 +49,7 @@ SupplejackApi::Engine.routes.draw do
   end
 
   # Harvester
-  namespace :harvester, constraints: SupplejackApi::HarvesterConstraint.new do
+  namespace :harvester do
     resources :records, only: [:create, :update, :show] do
       # TODO: Add record parameter constraint for update and create
       collection do
@@ -63,7 +63,7 @@ SupplejackApi::Engine.routes.draw do
   end
 
   # Partners
-  resources :partners, except: [:destroy], constraints: SupplejackApi::HarvesterConstraint.new do
+  resources :partners, except: [:destroy] do
     resources :sources, except: [:update, :index, :destroy], shallow: true do
       get :reindex, on: :member
       get :link_check_records, on: :member
@@ -71,7 +71,7 @@ SupplejackApi::Engine.routes.draw do
   end
 
   # Sources
-  resources :sources, only: [:index, :update], constraints: SupplejackApi::HarvesterConstraint.new
+  resources :sources, only: [:index, :update]
 
   get '/status', to: 'status#show'
 
